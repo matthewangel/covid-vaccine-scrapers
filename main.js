@@ -59,6 +59,7 @@ async function execute() {
                         return null;
                     })
                     .then(async (result) => {
+                        // TODO - call FaunaDB util method here!
                         await logScraperRun(
                             scraper.name,
                             isSuccess,
