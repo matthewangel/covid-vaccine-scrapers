@@ -80,31 +80,7 @@ async function execute() {
             }
         }
 
-        let finalResultsArray = [];
-        if (process.argv.length <= 2) {
-            // Only add default data if we're not testing individual scrapers.
-            // We are not passing in the optional 3rd arg of mergeResults;
-            // this means that there is no time limit on stale data being merged in.
-            finalResultsArray = dataDefaulter.mergeResults(
-                scrapedResultsArray,
-                cachedResults
-            );
-        } else {
-            finalResultsArray = scrapedResultsArray;
-        }
-
-        const responseJson = {
-            // Version number of the file
-            version: 1,
-
-            // Timestamp for the archived data.json file.
-            timestamp: s3.getTimestampForFile(),
-
-            // Add geocoding for all locations
-            results: await getAllCoordinates(finalResultsArray, cachedResults),
-        };
-
-        const webData = JSON.stringify(responseJson);
+        const webData = JSON.stringify(scrapedResultsArray);
 
         if (process.env.DEVELOPMENT) {
             console.log("The following data would be published:");
